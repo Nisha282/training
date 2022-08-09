@@ -1,5 +1,6 @@
 const express = require('express');
-const myHelper = require('../util/helper')
+const util = require('../util/helper')
+
 const underscore = require('underscore')
 
 const router = express.Router();
@@ -28,6 +29,7 @@ router.get("/movies/:indexNumber", function(req, res){
     res.send(requiredMovie)
 })
 
+
 router.get("/shoes", function(req, res){
     let queryParams = req.query
     let brand = queryParams.brand
@@ -53,8 +55,9 @@ router.get('/candidates/:canidatesName', function(req, res){
     console.log('Candidates name is '+req.params.canidatesName)
     res.send('Done')
 })
+ 
+router.get('/films', function(req,res){
 
-router.get("/films", function(req, res){
     const films = [ {
         "id": 1,
         "name": "The Shining"
@@ -98,10 +101,42 @@ router.get("/films/:filmId", function(req, res){
                return res.send(film)
            }
        }
-
-       //if there is no match give an error response
+    //    if there is no match give an error response
        res.send("The film id doesn't match any movie")
 })
 
+router.get("/sol1", function (req, res) {
+   let arr= [1,2,3,5,6,7]
+ 
+   let total = 0;
+   for (var i in arr) {
+       total += arr[i];
+   }
+ 
+   let lastDigit= arr.pop()
+   let consecutiveSum= lastDigit * (lastDigit+1) / 2
+   let missingNumber= consecutiveSum - total
+ 
+   res.send(  { data: missingNumber  }  );
+ 
+})
+
+router.get("/sol2", function (req, res) {
+let arr= [33, 34, 35, 37, 38]
+   let len= arr.length
+ 
+   let total = 0;
+   for (var i in arr) {
+       total += arr[i];
+   }
+   let firstDigit= arr[0]
+   let lastDigit= arr.pop()
+   let consecutiveSum= (len + 1) * (firstDigit+ lastDigit ) / 2
+   let missingNumber= consecutiveSum - total
+  
+   res.send(  { data: missingNumber  }  );
+ });
+
+       
 module.exports = router;
 // adding this comment for no reason
