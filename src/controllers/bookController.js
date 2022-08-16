@@ -16,7 +16,7 @@ const getBooksData= async function (req, res) {
     
     // let allBooks= await BookModel.find( { 
     //     $or: [ {authorName : "Chetan Bhagat" } , { isPublished: true } , {  "year": 1991 }]
-    // } ).select( { bookName: 1, authorName: 1, _id: 0})n // SELECT keys that we want
+    // } ).select( { bookName: 1, authorName: 1, _id: 0}) // SELECT keys that we want
 
     // let allBooks= await BookModel.find().sort( { sales: -1 }) // SORT
 
