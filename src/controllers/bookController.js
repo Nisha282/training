@@ -53,6 +53,14 @@ const updateSpecificBooks = async function(req, res) {
     res.send({data: updatedBooks})
 }
 
+// const getpublishdata = async function (req, res){
+//     let allBooks= await publishratingModel.updateMany( { rating: {$gt: 3.5}},{ $inc: { price: 10 }})
+//     res.send({data: allBooks})
+
+// }
+
+
 module.exports.createBook= createBook
 module.exports.getAllBooksWithCompleteDetails = getAllBooksWithCompleteDetails
 module.exports.updateSpecificBooks = updateSpecificBooks
+// module.exports.getpublishdata = getpublishdata

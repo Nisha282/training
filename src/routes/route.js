@@ -21,4 +21,6 @@ router.get("/getAllBooksWithCompleteDetails", bookController.getAllBooksWithComp
 
 router.put("/books", bookController.updateSpecificBooks)
 
+// router.get("/getpublishdata" , bookController.getpublishdata)
+
 module.exports = router;
