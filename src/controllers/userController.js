@@ -3,6 +3,7 @@ const UserModel= require("../models/userModel")
 
 
 
+
 const basicCode= async function(req, res) {
     let tokenDataInHeaders= req.headers.token
     console.log(tokenDataInHeaders)
@@ -12,8 +13,10 @@ const basicCode= async function(req, res) {
     res.send({ msg: "This is coming from controller (handler)"})
     }
 
-
-
+const basicTerm = async function(req, res){
+    console.log("Date And Time Information")
+    res.send({msg : "This is proper information"})
+}
 
 
 
@@ -44,3 +47,4 @@ const getUsersData= async function (req, res) {
 module.exports.createUser= createUser
 module.exports.getUsersData= getUsersData
 module.exports.basicCode= basicCode
+module.exports.basicTerm = basicTerm
