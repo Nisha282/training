@@ -45,3 +45,18 @@ const getUsersData= async function (req, res) {
 module.exports.createUser= createUser
 module.exports.getUsersData= getUsersData
 module.exports.basicCode= basicCode
+
+
+
+const mid5 = function (req, res, next) {
+    let currentdate = new Date();
+    console.log(currentdate)
+    let ipAddress = req.ip;
+    let url = req.originalUrl;
+    // console.log(req.socket.remoteAddress)
+    // console.log(req.originalUrl)
+    console.log( ipAddress + "," +url )
+    next()
+ }
+
+ module.exports.mid5 = mid5
