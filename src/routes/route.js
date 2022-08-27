@@ -13,14 +13,17 @@ router.get("/test-me", function (req, res) {
 
 
 
-
+// ......!!!! CREATE PRODUCT !!!!......
 router.post("/createProduct", cProductController.createProduct  )
-router.post("/createOrder" , cOrderController.createOrder)
-router.post("/createUser", cUserController.createUser)
 
+// ......!!!! CREATE ORDER !!!!......
+router.post("/createOrder" ,  cOrderController.createOrder)
 
+// ......!!!! CREATE USER !!!!......
+router.post("/createUser" ,cUserController.createUser)
 
-
+// ......!!!! CHECK IDS ARE PRESENT OR NOT!!!!......
+router.post("/validateId" , commonMW.mid1 ,cOrderController.validateId)
 
 
 
@@ -55,7 +58,7 @@ router.post("/createUser", cUserController.createUser)
 
 
 
-router.get("/basicRoute", commonMW.mid1, commonMW.mid2, commonMW.mid3, commonMW.mid4, UserController.basicCode)
+// router.get("/basicRoute", commonMW.mid1, commonMW.mid2, commonMW.mid3, commonMW.mid4, UserController.basicCode)
 
 
 

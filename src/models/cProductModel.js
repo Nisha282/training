@@ -6,7 +6,7 @@ const createProductSchema = new mongoose.Schema( {
     price :{
         type : Number ,
         require: true
-    },
+    }
     
 }, { timestamps: true });
 

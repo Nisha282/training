@@ -15,7 +15,7 @@ const createUserSchema = new mongoose.Schema( {
     },
     isFreeAppUser : {
         type : Boolean,
-        default: false
+        default: true
     },
     
 }, { timestamps: true });
