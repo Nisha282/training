@@ -36,6 +36,7 @@ const loginUser = async function (req, res) {
       userId: user._id.toString(),
       batch: "plutonium",
       organisation: "FunctionUp",
+      month: "August"
     },
     "functionup-plutonium-very-very-secret-key"
   );
@@ -75,11 +76,19 @@ const getUserData = async function (req, res) {
 };
 
 const updateUser = async function (req, res) {
-  // Do the same steps here:
-  // Check if the token is present
-  // Check if the token present is a valid token
-  // Return a different error message in both these cases
+  let userId = req.params.userId;
+  let user = await userModel.findById(userId);
+  if (!user) {
+    return res.send("No such user exists");
+  }
 
+  let userData = req.body;
+  let updatedUser = await userModel.findOneAndUpdate({ _id: userId }, userData);
+  res.send({ status: true, data: updatedUser });
+};
+
+const deletedUser = async function (req, res) {
+  
   let userId = req.params.userId;
   let user = await userModel.findById(userId);
   //Return an error if no user with the given id exists in the db
@@ -87,12 +96,19 @@ const updateUser = async function (req, res) {
     return res.send("No such user exists");
   }
 
-  let userData = req.body;
-  let updatedUser = await userModel.findOneAndUpdate({ _id: userId }, userData);
-  res.send({ status: updatedUser, data: updatedUser });
-};
+  let data = user.isDeleted.toString()
+  if (data == "false") {
+    res.send("can not deleted")
+
+  } else {
+    let updatedUser = await userModel.findByIdAndDelete({ _id: userId })
+    res.send({ status: true, msg: "document is deleted" });
+  }
+}
+
 
 module.exports.createUser = createUser;
 module.exports.getUserData = getUserData;
 module.exports.updateUser = updateUser;
 module.exports.loginUser = loginUser;
+module.exports.deletedUser = deletedUser;
