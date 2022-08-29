@@ -95,12 +95,22 @@ const deletedUser = async function (req, res) {
   if (!user) {
     return res.send(" status : false ,No such user exists");
   }
-
- 
-    let updatedUser = await userModel.findByIdAndUpdate({ _id: userId })
+    let updatedUser = await userModel.findByIdAndUpdate({ _id: userId }, {isDeleted : true})
     res.send({ status: true, data: updatedUser  });
   }
 }
+
+// let data = user.isDeleted.toString()
+//   if (data == "false") {
+//     res.send("can not deleted")
+
+//   } else {
+//     let updatedUser = await userModel.findByIdAndDelete({ _id: userId })
+//     res.send({ status: true, msg: "document is deleted" });
+//   }
+// }
+
+
 
 
 module.exports.createUser = createUser;
