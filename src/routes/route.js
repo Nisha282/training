@@ -13,7 +13,7 @@ router.get("/test-me", function (req, res) {
 });
 
 //creating Authors API
-router.post("/authors", middleware.authentication, authorController.authors);
+router.post("/authors",  authorController.authors);
 
 //creating Blogs API
 router.post("/blogs", middleware.authentication, blogController.blogs);
