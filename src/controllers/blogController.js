@@ -62,7 +62,7 @@ exports.blogs = async function (req, res) {
     else {
 
       let blogData = await blogModel.create(blogBody);
-      res.status(201).send({ status: true, data: blogData });
+      return res.status(201).send({ status: true, data: blogData });
     }
   } catch (err) {
     res.status(500).send({ status: false, ErrorName: err.name, ErrorMsg: err.message });
@@ -145,10 +145,7 @@ exports.blogsUpdate = async function (req, res) {
             isDeleted: blogBody.isDeleted,
           },
           $currentDate: { publishedAt: dateToday.format("YYYY-MM-DD") },
-        },
-
-        { new: true }
-      );
+        }, { new: true });
       return res.status(201).send({ status: true, data: blogUpdateData });
     }
   } catch (err) {
@@ -168,26 +165,19 @@ const deleteBlogById = async function (req, res) {
       return res.status(404).send("blog document doesn't exist");
     } else {
       //New Changes (Remove this Comment After Doing Changes )
-      let markDelete = await blogModel.updateOne(
-        { _id: blog._id },
-        { isDeleted: true },
-        { new: true }
-        //
-      );
+      let markDelete = await blogModel.updateOne({ _id: blog._id }, { isDeleted: true }, { new: true });
       return res.status(200).send({ status: true, status: 200 });
     }
   } catch (err) {
-    res
-      .status(500)
-      .send({ status: false, ErrorName: err.name, ErrorMsg: err.message });
+    res.status(500).send({ status: false, ErrorName: err.name, ErrorMsg: err.message });
   }
 };
 
 // -------------DELETE BY QUERY PARAMS --------------
 const deleteblog = async function (req, res) {
   try {
-    let obj = {};
-    obj.isDeleted = "false";
+
+    let obj = { isDeleted: false, isPublished: true };
     // filter
     let authorId = req.query.authorId;
     let category = req.query.category;
@@ -197,9 +187,13 @@ const deleteblog = async function (req, res) {
     let Token = req.headers["x-api-key"];
     let tokenVerify = jwt.verify(Token, "FunctionUP-Project1-Group30");
 
+
     // applying filters
-    if (tokenVerify) {
-      obj.authorId = tokenVerify.userId; //if authorID (present) then  creating object(key ,value pair) inside obj
+    if (authorId) {
+      obj.authorId = authorId; //if authorID (present) then  creating object(key ,value pair) inside obj
+      if (tokenVerify.userId != authorId) {
+        return res.status(404).send({ status: false, msg: "wrong authorId" });
+      }
     }
     if (category) {
       obj.category = category;
@@ -214,21 +208,16 @@ const deleteblog = async function (req, res) {
       obj.isPublished = isPublished;
     }
 
-    if (Object.keys(obj).length === 0) {
-      return res.status(404).send({ status: false, msg: "blogs not found" });
-    }
+    let savedData = await blogModel.updateMany(obj, { isDeleted: true });
 
-    let savedData = await blogModel.updateMany(
-      obj,
-      { isDeleted: true },
-      { new: true }
-    );
+    if (savedData.matchedCount == 0) {
+      return res.status(404).send({ status: false, msg: "the blog document doesn't exist" });
+    }
     return res.status(200).send({ status: true, data: savedData });
   } catch (error) {
     return res.status(500).send({ status: false, error: error.message });
   }
 };
-
 module.exports.getblogs = getblogs;
 module.exports.deleteBlogById = deleteBlogById;
 module.exports.deleteblog = deleteblog;
