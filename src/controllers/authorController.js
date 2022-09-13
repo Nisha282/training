@@ -36,6 +36,13 @@ const authors = async function (req, res) {
       res.status(400).send({status: false,message: `Email should be a valid email address`,});
       return;
     }
+// emailcheck
+    // let emailCheck = await authorModel.findOne(req.email);
+    // if (emailCheck) {
+    //   res
+    //     .status(409)
+    //     .send({ status: false, msg: "This email already exists." });
+    // }
 
     //Validating password(Madtory)
     if (!isValid(data.password)) {
@@ -51,7 +58,7 @@ const authors = async function (req, res) {
     //If All Working Fine
     else {
       let savedData = await authorModel.create(data);
-      res.status(201).send({status:true, msg: savedData });
+     return res.status(201).send({status:true, msg: savedData });
     }
   } catch (err) {
     return res.status(500).send({status:false, ErrorName: err.name, ErrorMessage: err.message });

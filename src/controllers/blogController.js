@@ -19,6 +19,8 @@ const isValid = function (value) {
 exports.blogs = async function (req, res) {
   try {
     let blogBody = req.body;
+    blogBody.publishedAt = dateToday.format("YYYY-MM-DD");
+
 
     //Validating empty Doc
     if (Object.keys(blogBody).length == 0) {
@@ -58,6 +60,7 @@ exports.blogs = async function (req, res) {
 
     //all Working Fine (then else)
     else {
+
       let blogData = await blogModel.create(blogBody);
       res.status(201).send({ status: true, data: blogData });
     }
@@ -160,25 +163,31 @@ const deleteBlogById = async function (req, res) {
     let blog = await blogModel.findById(blogId);
     let data = blog.isDeleted;
     //console.log(data);
-    if (!blog) {
-      return res.status(404).send({ status: false, msg: " This is not  a valid blogId" });
-    }
 
     if (data == true) {
-      return res.status(404).send({ status: false, msg: "blog document doesn't exist" });
+      return res.status(404).send("blog document doesn't exist");
     } else {
-      res.status(200).send({ status: true });
+      //New Changes (Remove this Comment After Doing Changes )
+      let markDelete = await blogModel.updateOne(
+        { _id: blog._id },
+        { isDeleted: true },
+        { new: true }
+        //
+      );
+      res.status(200).send({ status: true, status: 200 });
     }
   } catch (err) {
-    res.status(500).send({ status: false, ErrorName: err.name, ErrorMsg: err.message });
+    res
+      .status(500)
+      .send({ status: false, ErrorName: err.name, ErrorMsg: err.message });
   }
 };
 
 // -------------DELETE BY QUERY PARAMS --------------
 const deleteblog = async function (req, res) {
   try {
-
     let obj = {};
+    obj.isDeleted = "false";
     // filter
     let authorId = req.query.authorId;
     let category = req.query.category;
@@ -187,7 +196,6 @@ const deleteblog = async function (req, res) {
     let isPublished = req.query.isPublished;
     let Token = req.headers["x-api-key"];
     let tokenVerify = jwt.verify(Token, "FunctionUP-Project1-Group30");
-
 
     // applying filters
     if (tokenVerify) {
@@ -210,7 +218,11 @@ const deleteblog = async function (req, res) {
       return res.status(404).send({ status: false, msg: "blogs not found" });
     }
 
-    let savedData = await blogModel.updateMany(obj, { isDeleted: true }, { new: true });
+    let savedData = await blogModel.updateMany(
+      obj,
+      { isDeleted: true },
+      { new: true }
+    );
     return res.status(200).send({ status: true, data: savedData });
   } catch (error) {
     return res.status(500).send({ status: false, error: error.message });
