@@ -174,7 +174,7 @@ const deleteBlogById = async function (req, res) {
         { new: true }
         //
       );
-      res.status(200).send({ status: true, status: 200 });
+      return res.status(200).send({ status: true, status: 200 });
     }
   } catch (err) {
     res

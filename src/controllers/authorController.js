@@ -33,8 +33,8 @@ const authors = async function (req, res) {
 
     //Validating Email using regex(Madtory)
     if (!/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/.test(data.email)) {
-      res.status(400).send({status: false,message: `Email should be a valid email address`,});
-      return;
+     return res.status(400).send({status: false,message: `Email should be a valid email address`,});
+      
     }
 // emailcheck
     // let emailCheck = await authorModel.findOne(req.email);
