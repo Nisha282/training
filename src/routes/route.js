@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const userController= require("../controllers/userController")
+const userController = require("../controllers/userController")
 const bookController = require("../controllers/bookController")
 const commonMiddleware = require("../middleware/commonMiddleware")
 const getBookscontroller = require("../controllers/getBookController")
@@ -8,19 +8,19 @@ const reviewController = require('../controllers/reviewController')
 
 // ------------POST REGISTER-----------------
 
-router.post("/register",userController.createUser)
+router.post("/register", userController.createUser)
 
 // ---------------POST LOGIN------------------
 
-router.post("/login",userController.login)
+router.post("/login", userController.login)
 
 // --------------POST BOOKS-------------------
 
-router.post("/books",commonMiddleware.Authentication ,bookController.createBook)
+router.post("/books", commonMiddleware.Authentication, bookController.createBook)
 
 // ------------GET BOOKS-----------------
 
-router.get("/books",commonMiddleware.Authentication, getBookscontroller.getBooks)
+router.get("/books", commonMiddleware.Authentication, getBookscontroller.getBooks)
 
 // -------------GET BOOKSBYID------------------------
 
@@ -28,11 +28,11 @@ router.get("/books/:bookId", commonMiddleware.Authentication, getBookscontroller
 
 // -------------UPDATE-------------------------------
 
-router.put("/books/:bookId"  ,commonMiddleware.Authentication, commonMiddleware.Authorisation, bookController.updateBook)
+router.put("/books/:bookId", commonMiddleware.Authentication, commonMiddleware.Authorisation, bookController.updateBook)
 
 // -------------DELETE--------------------------------
 
-router.delete("/books/:bookId" ,commonMiddleware.Authentication, commonMiddleware.Authorisation  ,bookController.deletedBooks)
+router.delete("/books/:bookId", commonMiddleware.Authentication, commonMiddleware.Authorisation, bookController.deletedBooks)
 
 //----------Post book review--------------------------
 
@@ -40,10 +40,10 @@ router.post('/books/:bookId/review', reviewController.createReview)
 
 // ---------------UPDATE REVIEW-------------------------
 
-router.put("/books/:bookId/review/:reviewId" , reviewController.updateReview)
+router.put("/books/:bookId/review/:reviewId", reviewController.updateReview)
 
 //----------------DELETE REVIEW---------------------------
-router.delete("/books/:bookId/review/:reviewId" , reviewController.deleteReview)
+router.delete("/books/:bookId/review/:reviewId", reviewController.deleteReview)
 
 
 module.exports = router;

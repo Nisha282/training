@@ -18,7 +18,7 @@ const Authentication = async function (req, res, next) {
             }
             req["decodedToken"] = decodedToken    //this line for we can access this token outside the middleware
 
-            // console.log(decodedToken )
+            // console.log(decodedToken)
 
             next()
 
