@@ -27,8 +27,6 @@ let uploadFile= async ( file) =>{
          }
          return resolve(data.Location)
      })
-
- 
     })
  }
 
